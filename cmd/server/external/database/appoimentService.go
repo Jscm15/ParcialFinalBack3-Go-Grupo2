@@ -27,10 +27,10 @@ func (s *SqlStore) GetByID(id int) (appoiments.Appoiment, error) {
 	return appoimentReturn, nil
 }
 
-func (s *SqlStore) GetByDni(dni string) (appoiments.Appoiment, error) {
+func (s *SqlStore) GetByDni(dni int) (appoiments.Appoiment, error) {
 	var appoimentReturn appoiments.Appoiment
 
-	query := fmt.Sprintf("SELECT * FROM appoiments WHERE patient = '%s';", dni)
+	query := fmt.Sprintf("SELECT * FROM appoiments WHERE patient = '%d';", dni)
 	row := s.DB.QueryRow(query)
 	err := row.Scan(&appoimentReturn.ID, &appoimentReturn.Patient, &appoimentReturn.Dentist, &appoimentReturn.DateAndHour,
 		&appoimentReturn.Description )
@@ -41,7 +41,7 @@ func (s *SqlStore) GetByDni(dni string) (appoiments.Appoiment, error) {
 }
 
 func (s *SqlStore) Create(appoiment appoiments.Appoiment) (appoiments.Appoiment, error) {
-	query:= fmt.Sprintf("INSERT INTO appoiments(patient, dentist, dateAndHour, description) VALUES( '%s', '%s', '%s', '%s');", appoiment.Patient, appoiment.Dentist,appoiment.DateAndHour, appoiment.Description) 
+	query:= fmt.Sprintf("INSERT INTO appoiments(id,patient, dentist, dateAndHour, description) VALUES('%d','%d', '%s', '%s', '%s');", appoiment.ID,appoiment.Patient, appoiment.Dentist,appoiment.DateAndHour, appoiment.Description) 
 	stmt, err := s.DB.Prepare(query)
 	if err != nil {
 		return appoiments.Appoiment{}, err
@@ -61,7 +61,7 @@ func (s *SqlStore) Create(appoiment appoiments.Appoiment) (appoiments.Appoiment,
 }
 
 func (s *SqlStore) Modify(id int, appoiment appoiments.Appoiment) (appoiments.Appoiment, error) {
-	query := fmt.Sprintf("UPDATE appoiments SET patient = '%s', dentist = %s, dateAndHour = '%s',"+
+	query := fmt.Sprintf("UPDATE appoiments SET patient = '%d', dentist = %s, dateAndHour = '%s',"+
 		" description = '%s' WHERE id = %v;", appoiment.Patient, appoiment.Dentist,
 		appoiment.DateAndHour, appoiment.Description, appoiment.ID)
 	stmt, err := s.DB.Prepare(query)
