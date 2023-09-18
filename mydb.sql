@@ -31,13 +31,14 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `mydb`.`patiens`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `mydb`.`patiens` (
+
+CREATE TABLE IF NOT EXISTS `mydb`.`patients` (
   `ID` INT NOT NULL AUTO_INCREMENT,
   `FirstName` VARCHAR(45) NOT NULL,
   `LastName` VARCHAR(45) NOT NULL,
   `Address` VARCHAR(45) NOT NULL,
-  `DNI` BIGINT NOT NULL,
-  `DischargeDate` DATE NULL,
+  `DNI` VARCHAR(45) NOT NULL,
+  `DischargeDate` VARCHAR(45) NULL,
   PRIMARY KEY (`ID`),
   UNIQUE INDEX `id_UNIQUE` (`ID` ASC) VISIBLE)
 ENGINE = InnoDB;
