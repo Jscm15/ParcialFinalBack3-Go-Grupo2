@@ -45,6 +45,19 @@ func main() {
 	patientsGroup.POST("", patientsHandler.AddPatient)
 	patientsGroup.PUT("/:id", patientsHandler.ModifyPatientByID)
 	patientsGroup.DELETE("/:id", patientsHandler.DeletePatientByID)
+	
+	
+	dentistsService := dentists.NewService(dentistRepository)
+	
+	dentistsHandler := handler.NewDentistsHandler(dentistsService)
+	dentistGroup := router.Group("/dentists")
+	dentistGroup.POST("/", dentistsHandler.PostDentist)
+	dentistGroup.GET("/:id", dentistsHandler.GetDentistByID)
+	dentistGroup.PUT("/:id", dentistsHandler.PutDentist)
+	dentistGroup.PATCH("/:id", dentistsHandler.PatchDentist)
+	dentistGroup.DELETE("/:id", dentistsHandler.DeleteDentist)
+
+	
 
 	err = router.Run()
 
