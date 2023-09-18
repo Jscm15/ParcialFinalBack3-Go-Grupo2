@@ -25,9 +25,7 @@ func (s *Service) GetByDni(dni int) (Appoiment, error){
 }
 
 func (s *Service) Create(appoiment Appoiment) (Appoiment, error){
-	appoiment,err := s.repository.Create(appoiment)
-	return Appoiment{}, err
-
+	return s.repository.Create(appoiment)
 }
 
 func (s *Service) Modify(id int, appoiment Appoiment) (Appoiment, error) {

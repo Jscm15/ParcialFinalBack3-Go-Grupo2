@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
-	
-
 	"github.com/Jscm15/ParcialFinalBack3-Go-Grupo2/internal/appoiments"
 	"github.com/gin-gonic/gin"
 )
