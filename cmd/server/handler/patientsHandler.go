@@ -1,3 +1,6 @@
+<<<<<<< HEAD
+package handler
+=======
 package handler
 
 import (
@@ -100,3 +103,4 @@ func (p *PatientHandler) DeletePatient(ctx *gin.Context) {
 
 	ctx.JSON(200, "")
 }
+>>>>>>> main

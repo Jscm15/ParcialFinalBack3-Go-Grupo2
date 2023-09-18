@@ -1,11 +1,19 @@
 package main
 
 import (
+<<<<<<< HEAD
+	"github.com/Jscm15/ParcialFinalBack3-Go-Grupo2/cmd/server/external/database"
+	"github.com/Jscm15/ParcialFinalBack3-Go-Grupo2/cmd/server/handler"
+	"github.com/Jscm15/ParcialFinalBack3-Go-Grupo2/internal/appoiments"
+=======
 	"net/http"
 	"github.com/Jscm15/ParcialFinalBack3-Go-Grupo2/cmd/server/database"
 	"github.com/Jscm15/ParcialFinalBack3-Go-Grupo2/cmd/server/handler"
 	"github.com/Jscm15/ParcialFinalBack3-Go-Grupo2/internal/patients"
+>>>>>>> main
 	"github.com/gin-gonic/gin"
+	"net/http"
+
 )
 
 func main()  {
@@ -23,7 +31,12 @@ func main()  {
 	}
 	myDatabase := database.NewDatabase(mysqlDatabase)
 
+<<<<<<< HEAD
+	myDatabase:=database.NewDatabase(mysqlDatabase)
+
+=======
 	
+>>>>>>> main
 	appoimentsService:=appoiments.NewService(myDatabase)
 
 	appoimentsHandler:= handler.NewAppoimentsHandler(appoimentsService,appoimentsService,appoimentsService)
