@@ -6,14 +6,6 @@ import (
 	"github.com/Jscm15/ParcialFinalBack3-Go-Grupo2/internal/dentists"
 	"log"
 )
-
-type SqlStore struct {
-	DB *sql.DB
-}
-
-func NewDatabase(db *sql.DB) *SqlStore {
-	return &SqlStore{db}
-}
 func (s *SqlStore) GetDentistByID(id int) (dentists.Dentist, error) {
 	var dentistReturn dentists.Dentist
 
