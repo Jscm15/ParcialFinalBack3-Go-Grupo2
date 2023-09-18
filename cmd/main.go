@@ -46,8 +46,9 @@ func main() {
 	patientsGroup.PUT("/:id", patientsHandler.ModifyPatientByID)
 	patientsGroup.DELETE("/:id", patientsHandler.DeletePatientByID)
 	
+        patientsGroup := router.Group("/patients")
 	
-	dentistsService := dentists.NewService(dentistRepository)
+	dentistsService := router.Group("/dentists")
 	
 	dentistsHandler := handler.NewDentistsHandler(dentistsService)
 	dentistGroup := router.Group("/dentists")
