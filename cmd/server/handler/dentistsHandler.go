@@ -40,13 +40,13 @@ func (dh *DentistsHandler) GetDentistByID(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "ID inválido"})
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid id"})
 		return
 	}
 
 	dentista, err := dh.dentistsGetter.GetDentistByID(id)
 	if err != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{"error": "Dentista no encontrado"})
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "internal error"})
 		return
 	}
 
@@ -58,7 +58,7 @@ func (dh *DentistsHandler) GetDentistByMatricula(ctx *gin.Context) {
 	
 	dentista, err := dh.dentistsGetter.GetDentistByMatricula(idParam)
 	if err != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{"error": "Dentista no encontrado"})
+		ctx.JSON(http.StatusNotFound, gin.H{"error": "invalid id"})
 		return
 	}
 
@@ -74,7 +74,7 @@ func (dh *DentistsHandler) CreateDentist(ctx *gin.Context) {
 
 	createdDentista, err := dh.dentistsCreator.CreateDentist(dentista)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Error interno"})
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "internal error"})
 		return
 	}
 
@@ -85,7 +85,7 @@ func (dh *DentistsHandler) UpdateDentistByID(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "ID inválido"})
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid id"})
 		return
 	}
 
@@ -108,16 +108,16 @@ func (dh *DentistsHandler) DeleteDentistByID(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "ID inválido"})
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid id"})
 		return
 	}
 
 	err = dh.dentistsDeleter.DeleteDentistByID(id)
 	if err != nil {
-		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "Error interno"})
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "internal error"})
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{"data": fmt.Sprintf("Dentista %d eliminado", id)})
+	ctx.JSON(http.StatusOK, gin.H{"data": fmt.Sprintf("Dentist %d deleted", id)})
 }
 
