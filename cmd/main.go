@@ -48,11 +48,11 @@ func main() {
 	
         patientsGroup := router.Group("/patients")
 	
-	dentistsService := router.Group("/dentists")
+	dentistRepository := database.NewDentistRepository(db)
 	
 	dentistsHandler := handler.NewDentistsHandler(dentistsService)
 	dentistGroup := router.Group("/dentists")
-	dentistGroup.POST("/", dentistsHandler.PostDentist)
+	dentistGroup.POST("", dentistsHandler.PostDentist)
 	dentistGroup.GET("/:id", dentistsHandler.GetDentistByID)
 	dentistGroup.PUT("/:id", dentistsHandler.PutDentist)
 	dentistGroup.PATCH("/:id", dentistsHandler.PatchDentist)
