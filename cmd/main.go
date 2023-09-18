@@ -6,6 +6,7 @@ import (
 	"github.com/Jscm15/ParcialFinalBack3-Go-Grupo2/cmd/server/handler"
 	"github.com/Jscm15/ParcialFinalBack3-Go-Grupo2/internal/appoiments"
 	"github.com/Jscm15/ParcialFinalBack3-Go-Grupo2/internal/patients"
+	"github.com/Jscm15/ParcialFinalBack3-Go-Grupo2/internal/dentists"
 	"github.com/gin-gonic/gin"
 )
 
@@ -46,18 +47,16 @@ func main() {
 	patientsGroup.PUT("/:id", patientsHandler.ModifyPatientByID)
 	patientsGroup.DELETE("/:id", patientsHandler.DeletePatientByID)
 	
-        patientsGroup := router.Group("/patients")
-	
 	dentistsService := dentists.NewService(myDatabase)
 	
-	dentistsHandler := handler.NewDentistsHandler(dentistsService)
+	dentistsHandler := handler.NewDentistsHandler(dentistsService, dentistsService, dentistsService)
 	
 	dentistGroup := router.Group("/dentists")
-	dentistGroup.POST("", dentistsHandler.PostDentist)
+	dentistGroup.POST("", dentistsHandler.CreateDentist)
 	dentistGroup.GET("/:id", dentistsHandler.GetDentistByID)
-	dentistGroup.PUT("/:id", dentistsHandler.PutDentist)
-	dentistGroup.PATCH("/:id", dentistsHandler.PatchDentist)
-	dentistGroup.DELETE("/:id", dentistsHandler.DeleteDentist)
+	dentistGroup.PUT("/:id", dentistsHandler.UpdateDentistByID)
+	dentistGroup.GET("/matricula/:matricula", dentistsHandler.GetDentistByMatricula)
+	dentistGroup.DELETE("/:id", dentistsHandler.DeleteDentistByID)
 
 	
 
