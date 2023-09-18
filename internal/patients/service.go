@@ -1,7 +1,7 @@
 package patients
 
 type IRepositoryPatient interface {
-	GetByID(id int) (PatientModel, error)
+	GetPatientByID(id int) (PatientModel, error)
 	Update(id int, patient PatientModel) (PatientModel, error)
 	Add(patient PatientModel) (PatientModel, error)
 	Delete(id int) error
@@ -15,8 +15,8 @@ func NewService(repository IRepositoryPatient) *ServicePatient {
 	return &ServicePatient{repository: repository}
 }
 
-func (s *ServicePatient) GetByID(id int) (PatientModel, error) {
-	return s.repository.GetByID(id)
+func (s *ServicePatient) GetPatientByID(id int) (PatientModel, error) {
+	return s.repository.GetPatientByID(id)
 }
 
 func (s *ServicePatient) ModifyByID(id int, patient PatientModel) (PatientModel, error) {

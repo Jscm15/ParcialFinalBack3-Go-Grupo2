@@ -8,7 +8,7 @@ import (
 )
 
 type PatientGetter interface {
-	GetByID(id int) (patients.PatientModel, error)
+	GetPatientByID(id int) (patients.PatientModel, error)
 }
 
 type PatientCreator interface {
@@ -41,7 +41,7 @@ func (p *PatientHandler) GetPatientByID(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid id"})
 		return
 	}
-	patient, err := p.patientGetter.GetByID(id)
+	patient, err := p.patientGetter.GetPatientByID(id)
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": "patient not found"})
 		return

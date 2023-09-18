@@ -12,9 +12,9 @@ func NewDatabase(db *sql.DB) *SqlStore {
 	return &SqlStore{db}
 }
 
-func (s *SqlStore) GetByID(id int) (patients.PatientModel, error) {
+func (s *SqlStore) GetPatientByID(id int) (patients.PatientModel, error) {
 	var patient patients.PatientModel
-	query := "SELECT * FROM patient WHERE ID = ?;"
+	query := "SELECT * FROM patients WHERE ID = ?;"
 	row := s.DB.QueryRow(query, id)
 	err := row.Scan(&patient.ID, &patient.FirstName, &patient.LastName, &patient.Address, &patient.DNI, &patient.DischargeDate)
 	if err != nil {
@@ -24,7 +24,7 @@ func (s *SqlStore) GetByID(id int) (patients.PatientModel, error) {
 }
 
 func (s *SqlStore) Add(patient patients.PatientModel) (patients.PatientModel, error) {
-	query := "INSERT INTO patient (Name, LastName, Address, DNI, DischargeDate) VALUES (?, ?, ?, ?, ?)"
+	query := "INSERT INTO patients (FirstName, LastName, Address, DNI, DischargeDate) VALUES (?, ?, ?, ?, ?)"
 	stmt, err := s.DB.Prepare(query)
 	if err != nil {
 		return patients.PatientModel{}, err
@@ -39,12 +39,15 @@ func (s *SqlStore) Add(patient patients.PatientModel) (patients.PatientModel, er
 	if err != nil {
 		return patients.PatientModel{}, err
 	}
+	insertedId, _ := res.LastInsertId() 
+	patient.ID = int(insertedId)
+
 
 	return patient, nil
 }
 
 func (s *SqlStore) Delete(id int) error {
-	query := "DELETE FROM patient WHERE ID = ?"
+	query := "DELETE FROM patients WHERE ID = ?"
 	_, err := s.DB.Exec(query, id)
 	if err != nil {
 		return err
@@ -53,8 +56,10 @@ func (s *SqlStore) Delete(id int) error {
 }
 
 func (s *SqlStore) Update(id int, patient patients.PatientModel) (patients.PatientModel, error) {
-	updateQuery := "UPDATE patient SET Name = ?, LastName = ?, Address = ?, DNI = ?, DischargeDate = ? WHERE ID = ?"
-	_, err := s.DB.Exec(updateQuery, patient.FirstName, patient.LastName, patient.Address, patient.DNI, patient.DischargeDate, id)
+	updateQuery := "UPDATE patients SET FirstName = ?, LastName = ?, Address = ?, DNI = ?, DischargeDate = ? WHERE ID = ?"
+	stmt, err := s.DB.Prepare(updateQuery)
+	defer stmt.Close()
+	_, err = stmt.Exec(patient.FirstName, patient.LastName, patient.Address, patient.DNI, patient.DischargeDate, id)
 	if err != nil {
 		return patients.PatientModel{}, err
 	}
