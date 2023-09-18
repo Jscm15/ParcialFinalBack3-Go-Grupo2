@@ -30,7 +30,7 @@ func (s *Service) Create(appoiment Appoiment) (Appoiment, error){
 
 }
 
-func (s *Service) ModifyByID(id int, appoiment Appoiment) (Appoiment, error) {
+func (s *Service) Modify(id int, appoiment Appoiment) (Appoiment, error) {
 	return s.repository.Modify(id, appoiment)
 }
 

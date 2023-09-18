@@ -16,7 +16,7 @@ type AppoimentsGetter interface {
 }
 
 type AppoimentsCreator interface {
-	ModifyByID(id int, appoiment appoiments.Appoiment) (appoiments.Appoiment, error)
+	Modify(id int, appoiment appoiments.Appoiment) (appoiments.Appoiment, error)
 	UpdateDate(id int, appoiment appoiments.Appoiment) (appoiments.Appoiment, error)
 	Create(appoiment appoiments.Appoiment) (appoiments.Appoiment, error)
 }
@@ -96,7 +96,7 @@ func (ah *AppoimentsHandler) PutAppoiment(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	appoiment, err := ah.appoimentsCreator.ModifyByID(id, appoimentRequest)
+	appoiment, err := ah.appoimentsCreator.Modify(id, appoimentRequest)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "internal error"})
 		return

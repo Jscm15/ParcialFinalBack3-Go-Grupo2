@@ -6,6 +6,7 @@ import (
 	"github.com/Jscm15/ParcialFinalBack3-Go-Grupo2/internal/appoiments"
 	"github.com/gin-gonic/gin"
 	"net/http"
+
 )
 
 func main()  {
@@ -34,8 +35,6 @@ func main()  {
 	appoimentsGroup.POST("",appoimentsHandler.CreateAppoiment)
 	appoimentsGroup.PUT("/:id",appoimentsHandler.PutAppoiment)
 	appoimentsGroup.DELETE("/:id",appoimentsHandler.DeleteAppoiment)
-
-
 	
 	err = router.Run()
 
