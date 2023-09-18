@@ -38,6 +38,6 @@ func (s *Service) UpdateDate(id int, appoiment Appoiment) (Appoiment, error) {
 	return s.repository.UpdateDate(id, appoiment)
 }
 
-func (s *Service) DeleteByID(id int)  error {
+func (s *Service) DeleteA(id int)  error {
 	return s.repository.Delete(id)
 }
