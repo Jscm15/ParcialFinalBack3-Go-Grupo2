@@ -36,8 +36,8 @@ CREATE TABLE IF NOT EXISTS `mydb`.`patients` (
   `FirstName` VARCHAR(45) NOT NULL,
   `LastName` VARCHAR(45) NOT NULL,
   `Address` VARCHAR(45) NOT NULL,
-  `DNI` BIGINT NOT NULL,
-  `DischargeDate` DATE NULL,
+  `DNI` VARCHAR(45) NOT NULL,
+  `DischargeDate` VARCHAR(45) NULL,
   PRIMARY KEY (`ID`),
   UNIQUE INDEX `id_UNIQUE` (`ID` ASC) VISIBLE)
 ENGINE = InnoDB;
