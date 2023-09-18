@@ -1,16 +1,8 @@
 package database
 
 import (
-	"database/sql"
 	"github.com/Jscm15/ParcialFinalBack3-Go-Grupo2/internal/patients"
 )
-
-type SqlStore struct {
-	DB *sql.DB
-}
-func NewDatabase(db *sql.DB) *SqlStore {
-	return &SqlStore{db}
-}
 
 func (s *SqlStore) GetPatientByID(id int) (patients.PatientModel, error) {
 	var patient patients.PatientModel
@@ -23,7 +15,7 @@ func (s *SqlStore) GetPatientByID(id int) (patients.PatientModel, error) {
 	return patient, nil
 }
 
-func (s *SqlStore) Add(patient patients.PatientModel) (patients.PatientModel, error) {
+func (s *SqlStore) AddPatient(patient patients.PatientModel) (patients.PatientModel, error) {
 	query := "INSERT INTO patients (FirstName, LastName, Address, DNI, DischargeDate) VALUES (?, ?, ?, ?, ?)"
 	stmt, err := s.DB.Prepare(query)
 	if err != nil {
@@ -46,7 +38,7 @@ func (s *SqlStore) Add(patient patients.PatientModel) (patients.PatientModel, er
 	return patient, nil
 }
 
-func (s *SqlStore) Delete(id int) error {
+func (s *SqlStore) DeletePatientByID(id int) error {
 	query := "DELETE FROM patients WHERE ID = ?"
 	_, err := s.DB.Exec(query, id)
 	if err != nil {
@@ -55,7 +47,7 @@ func (s *SqlStore) Delete(id int) error {
 	return nil
 }
 
-func (s *SqlStore) Update(id int, patient patients.PatientModel) (patients.PatientModel, error) {
+func (s *SqlStore) ModifyPatientByID(id int, patient patients.PatientModel) (patients.PatientModel, error) {
 	updateQuery := "UPDATE patients SET FirstName = ?, LastName = ?, Address = ?, DNI = ?, DischargeDate = ? WHERE ID = ?"
 	stmt, err := s.DB.Prepare(updateQuery)
 	defer stmt.Close()

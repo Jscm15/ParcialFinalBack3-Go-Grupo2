@@ -1,41 +1,41 @@
 package appoiments
 
-type Repository interface{
-GetByID (id int)(Appoiment, error)
-GetByDni(dni int) (Appoiment,error)
-Create(appoiment Appoiment) (Appoiment, error)
-Modify(id int, appoiment Appoiment) (Appoiment, error)
+type IRepositoryAppointment interface{
+GetAppointmentByID (id int)(Appoiment, error)
+GetAppointmentByDni(dni int) (Appoiment,error)
+CreateAppointment(appoiment Appoiment) (Appoiment, error)
+ModifyAppointment(id int, appoiment Appoiment) (Appoiment, error)
 UpdateDate(id int, appoiment Appoiment) (Appoiment, error)
-Delete(id int) error
+DeleteAppointment(id int) error
 }
 
-type Service struct {
-	repository Repository
+type ServiceAppointment struct {
+	repository IRepositoryAppointment
 }
-func NewService(repository Repository) *Service  {
-	return &Service{repository: repository}
-}
-
-func (s *Service) GetByID(id int) (Appoiment, error){
-	return s.repository.GetByID(id)
+func NewService(repository IRepositoryAppointment) *ServiceAppointment  {
+	return &ServiceAppointment{repository: repository}
 }
 
-func (s *Service) GetByDni(dni int) (Appoiment, error){
-	return s.repository.GetByDni(dni)
+func (s *ServiceAppointment) GetAppointmentByID(id int) (Appoiment, error){
+	return s.repository.GetAppointmentByID(id)
 }
 
-func (s *Service) Create(appoiment Appoiment) (Appoiment, error){
-	return s.repository.Create(appoiment)
+func (s *ServiceAppointment) GetAppointmentByDni(dni int) (Appoiment, error){
+	return s.repository.GetAppointmentByDni(dni)
 }
 
-func (s *Service) Modify(id int, appoiment Appoiment) (Appoiment, error) {
-	return s.repository.Modify(id, appoiment)
+func (s *ServiceAppointment) CreateAppointment(appoiment Appoiment) (Appoiment, error){
+	return s.repository.CreateAppointment(appoiment)
 }
 
-func (s *Service) UpdateDate(id int, appoiment Appoiment) (Appoiment, error) {
+func (s *ServiceAppointment) ModifyAppointment(id int, appoiment Appoiment) (Appoiment, error) {
+	return s.repository.ModifyAppointment(id, appoiment)
+}
+
+func (s *ServiceAppointment) UpdateDate(id int, appoiment Appoiment) (Appoiment, error) {
 	return s.repository.UpdateDate(id, appoiment)
 }
 
-func (s *Service) Delete(id int)  error {
-	return s.repository.Delete(id)
+func (s *ServiceAppointment) DeleteAppointment(id int)  error {
+	return s.repository.DeleteAppointment(id)
 }

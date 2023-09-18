@@ -9,18 +9,18 @@ import (
 )
 
 type AppoimentsGetter interface {
-	GetByID(id int) (appoiments.Appoiment,error)
-	GetByDni(dni int) (appoiments.Appoiment,error)
+	GetAppointmentByID(id int) (appoiments.Appoiment,error)
+	GetAppointmentByDni(dni int) (appoiments.Appoiment,error)
 }
 
 type AppoimentsCreator interface {
-	Modify(id int, appoiment appoiments.Appoiment) (appoiments.Appoiment, error)
+	ModifyAppointment(id int, appoiment appoiments.Appoiment) (appoiments.Appoiment, error)
 	UpdateDate(id int, appoiment appoiments.Appoiment) (appoiments.Appoiment, error)
-	Create(appoiment appoiments.Appoiment) (appoiments.Appoiment, error)
+	CreateAppointment(appoiment appoiments.Appoiment) (appoiments.Appoiment, error)
 }
 
 type AppoimentsDelete interface {
-	Delete(id int) error
+	DeleteAppointment(id int) error
 }
 
 type AppoimentsHandler struct {
@@ -35,14 +35,14 @@ func NewAppoimentsHandler(getter AppoimentsGetter,creator AppoimentsCreator, del
 		appoimentsDelete:  deleter}
 }
 
-func (ah *AppoimentsHandler) GetAppoimentByID( ctx *gin.Context)  {
+func (ah *AppoimentsHandler) GetAppointmentByID( ctx *gin.Context)  {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
 	if err != nil{
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid appoiment id"})
 		return
 	}
-	appoiment, err := ah.appoimentsGetter.GetByID(id)
+	appoiment, err := ah.appoimentsGetter.GetAppointmentByID(id)
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": "product not found"})
 		return
@@ -50,14 +50,14 @@ func (ah *AppoimentsHandler) GetAppoimentByID( ctx *gin.Context)  {
 	ctx.JSON(http.StatusOK, appoiment)
 }
 
-func (ah *AppoimentsHandler) GetAppoimentByPatient( ctx *gin.Context)  {
+func (ah *AppoimentsHandler) GetAppointmentByDni( ctx *gin.Context)  {
 	dniParam := ctx.Param("dni")
 	dni, err := strconv.Atoi(dniParam)
 	if err != nil{
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "invalid appoiment id"})
 		return
 	}
-	appoiment, err := ah.appoimentsGetter.GetByDni(dni)
+	appoiment, err := ah.appoimentsGetter.GetAppointmentByDni(dni)
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": "product not found"})
 		return
@@ -72,7 +72,7 @@ func (ah *AppoimentsHandler) CreateAppoiment(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	appoiment, err := ah.appoimentsCreator.Create(appoimentRequest)
+	appoiment, err := ah.appoimentsCreator.CreateAppointment(appoimentRequest)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "internal error"})
 		return
@@ -81,7 +81,7 @@ func (ah *AppoimentsHandler) CreateAppoiment(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, appoiment)
 }
 
-func (ah *AppoimentsHandler) PutAppoiment(ctx *gin.Context) {
+func (ah *AppoimentsHandler) ModifyAppointment(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
@@ -94,7 +94,7 @@ func (ah *AppoimentsHandler) PutAppoiment(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	appoiment, err := ah.appoimentsCreator.Modify(id, appoimentRequest)
+	appoiment, err := ah.appoimentsCreator.ModifyAppointment(id, appoimentRequest)
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "internal error"})
 		return
@@ -102,7 +102,7 @@ func (ah *AppoimentsHandler) PutAppoiment(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, appoiment)
 }
 
-func (ah *AppoimentsHandler) UpdateAppoimentDate(ctx *gin.Context) {
+func (ah *AppoimentsHandler) UpdateDate(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
@@ -133,7 +133,7 @@ func (ah *AppoimentsHandler) DeleteAppoiment(ctx *gin.Context) {
 	ctx.JSON(http.StatusBadRequest, gin.H{ "error": "invalid ID"})
 	return
 	}
-	err = ah.appoimentsDelete.Delete(int(id))
+	err = ah.appoimentsDelete.DeleteAppointment(int(id))
 	if err != nil {
 	ctx.JSON(http.StatusBadRequest, gin.H{ "error": err.Error() })
 	return

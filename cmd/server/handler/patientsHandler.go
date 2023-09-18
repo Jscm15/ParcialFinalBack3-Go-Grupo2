@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-package handler
-=======
 package handler
 
 import (
@@ -15,12 +12,12 @@ type PatientGetter interface {
 }
 
 type PatientCreator interface {
-	ModifyByID(id int, patient patients.PatientModel) (patients.PatientModel, error)
+	ModifyPatientByID(id int, patient patients.PatientModel) (patients.PatientModel, error)
 	AddPatient(patient patients.PatientModel) (patients.PatientModel, error)
 }
 
 type PatientDelete interface {
-	DeleteByID(id int) error
+	DeletePatientByID(id int) error
 }
 
 type PatientHandler struct {
@@ -52,7 +49,7 @@ func (p *PatientHandler) GetPatientByID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, patient)
 }
 
-func (p *PatientHandler) PutPatient(ctx *gin.Context) {
+func (p *PatientHandler) ModifyPatientByID(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
@@ -65,7 +62,7 @@ func (p *PatientHandler) PutPatient(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	patient, err := p.patientCreator.ModifyByID(id, patientRequest)
+	patient, err := p.patientCreator.ModifyPatientByID(id, patientRequest)
 	if err != nil {
 		ctx.JSON(500, gin.H{"error": "internal error"})
 		return
@@ -73,7 +70,7 @@ func (p *PatientHandler) PutPatient(ctx *gin.Context) {
 	ctx.JSON(200, patient)
 }
 
-func (p *PatientHandler) CreatePatient(ctx *gin.Context) {
+func (p *PatientHandler) AddPatient(ctx *gin.Context) {
 	patientRequest := patients.PatientModel{}
 	err := ctx.BindJSON(&patientRequest)
 	if err != nil {
@@ -88,14 +85,14 @@ func (p *PatientHandler) CreatePatient(ctx *gin.Context) {
 	ctx.JSON(200, patient)
 }
 
-func (p *PatientHandler) DeletePatient(ctx *gin.Context) {
+func (p *PatientHandler) DeletePatientByID(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
 	if err != nil {
 		ctx.JSON(400, gin.H{"error": "invalid id"})
 		return
 	}
-	err = p.patientDelete.DeleteByID(id)
+	err = p.patientDelete.DeletePatientByID(id)
 	if err != nil {
 		ctx.JSON(500, gin.H{"error": "internal error"})
 		return
@@ -103,4 +100,3 @@ func (p *PatientHandler) DeletePatient(ctx *gin.Context) {
 
 	ctx.JSON(200, "")
 }
->>>>>>> main
