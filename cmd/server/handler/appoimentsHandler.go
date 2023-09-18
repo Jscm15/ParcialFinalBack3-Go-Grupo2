@@ -16,8 +16,8 @@ type AppoimentsGetter interface {
 }
 
 type AppoimentsCreator interface {
-	ModifyByID(id int, product appoiments.Appoiment) (appoiments.Appoiment, error)
-	UpdateDate(id int, product appoiments.Appoiment) (appoiments.Appoiment, error)
+	ModifyByID(id int, appoiment appoiments.Appoiment) (appoiments.Appoiment, error)
+	UpdateDate(id int, appoiment appoiments.Appoiment) (appoiments.Appoiment, error)
 	Create(appoiment appoiments.Appoiment) (appoiments.Appoiment, error)
 }
 
@@ -28,11 +28,13 @@ type AppoimentsDelete interface {
 type AppoimentsHandler struct {
 	appoimentsGetter AppoimentsGetter
 	appoimentsCreator AppoimentsCreator
-	AppoimentsDelete AppoimentsDelete
+	appoimentsDelete AppoimentsDelete
 }
 
-func NewAppoimentsHandler(getter AppoimentsGetter) *AppoimentsHandler  {
-	return &AppoimentsHandler{appoimentsGetter: getter}
+func NewAppoimentsHandler(getter AppoimentsGetter,creator AppoimentsCreator, deleter AppoimentsDelete) *AppoimentsHandler  {
+	return &AppoimentsHandler{appoimentsGetter: getter,
+		appoimentsCreator: creator,
+		appoimentsDelete:  deleter}
 }
 
 func (ah *AppoimentsHandler) GetAppoimentByID( ctx *gin.Context)  {
@@ -133,7 +135,7 @@ func (ah *AppoimentsHandler) DeleteAppoiment(ctx *gin.Context) {
 	ctx.JSON(http.StatusBadRequest, gin.H{ "error": "invalid ID"})
 	return
 	}
-	err = ah.AppoimentsDelete.Delete(int(id))
+	err = ah.appoimentsDelete.Delete(int(id))
 	if err != nil {
 	ctx.JSON(http.StatusBadRequest, gin.H{ "error": err.Error() })
 	return

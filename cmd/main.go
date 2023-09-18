@@ -25,7 +25,7 @@ func main()  {
 
 	appoimentsService:=appoiments.NewService(myDatabase)
 
-	appoimentsHandler:= handler.NewAppoimentsHandler(appoimentsService)
+	appoimentsHandler:= handler.NewAppoimentsHandler(appoimentsService,appoimentsService,appoimentsService)
 
 	appoimentsGroup:=router.Group("/appoiments")
 

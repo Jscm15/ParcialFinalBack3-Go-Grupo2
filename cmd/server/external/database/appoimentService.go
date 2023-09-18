@@ -93,7 +93,7 @@ func (s *SqlStore) UpdateDate(id int, appoiment appoiments.Appoiment) (appoiment
 }
 
 func (s *SqlStore) Delete(id int)  error {
-	query := fmt.Sprintf("DELETE FROM appoiments WHERE id = %d;", id)
+	query := "DELETE FROM appoiments WHERE id = ?;"
 	_, err := s.DB.Exec(query,id)
 	if err!=nil{
 		return err

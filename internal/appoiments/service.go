@@ -24,7 +24,7 @@ func (s *Service) GetByDni(dni int) (Appoiment, error){
 	return s.repository.GetByDni(dni)
 }
 
-func (s *Service) CreateApoiment(appoiment Appoiment) (Appoiment, error){
+func (s *Service) Create(appoiment Appoiment) (Appoiment, error){
 	appoiment,err := s.repository.Create(appoiment)
 	return Appoiment{}, err
 
@@ -38,6 +38,6 @@ func (s *Service) UpdateDate(id int, appoiment Appoiment) (Appoiment, error) {
 	return s.repository.UpdateDate(id, appoiment)
 }
 
-func (s *Service) DeleteA(id int)  error {
+func (s *Service) Delete(id int)  error {
 	return s.repository.Delete(id)
 }
