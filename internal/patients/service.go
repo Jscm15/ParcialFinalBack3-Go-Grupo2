@@ -1,32 +1,32 @@
 package patients
 
-type IService interface {
-	GetByID(id int) (*PatientModel, error)
-	AddPatient(patient PatientModel) (*PatientModel, error)
-	ModifyByID(id int, patient PatientModel) (*PatientModel, error)
-	DeleteByID(id int) error
+type IRepositoryPatient interface {
+	GetByID(id int) (PatientModel, error)
+	Update(id int, patient PatientModel) (PatientModel, error)
+	Add(patient PatientModel) (PatientModel, error)
+	Delete(id int) error
 }
 
-type Service struct {
-	repository IRepository
+type ServicePatient struct {
+	repository IRepositoryPatient
 }
 
-func NewService(repository IRepository) *Service {
-	return &Service{repository: repository}
+func NewService(repository IRepositoryPatient) *ServicePatient {
+	return &ServicePatient{repository: repository}
 }
 
-func (s *Service) GetByID(id int) (PatientModel, error) {
+func (s *ServicePatient) GetByID(id int) (PatientModel, error) {
 	return s.repository.GetByID(id)
 }
 
-func (s *Service) ModifyByID(id int, patient PatientModel) (PatientModel, error) {
+func (s *ServicePatient) ModifyByID(id int, patient PatientModel) (PatientModel, error) {
 	return s.repository.Update(id, patient)
 }
 
-func (s *Service) AddPatient(patient PatientModel) (PatientModel, error) {
+func (s *ServicePatient) AddPatient(patient PatientModel) (PatientModel, error) {
 	return s.repository.Add(patient)
 }
 
-func (s *Service) DeleteByID(id int) error {
+func (s *ServicePatient) DeleteByID(id int) error {
 	return s.repository.Delete(id)
 }
