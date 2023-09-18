@@ -1,11 +1,11 @@
 package dentists
 
 type DentistRepository interface {
-	GetByID(id int) (Dentist, error)
-	Create(dentist Dentist) (Dentist, error)
-	Modify(id int, dentist Dentist) (Dentist, error)
-	UpdateField(id int, denstist Dentist) (Dentist, error)
-	Delete(id int) error
+	GetDentistByID(id int) (Dentist, error)
+	CreateDentist(dentist Dentist) (Dentist, error)
+	UpdateDentistByID(id int, dentist Dentist) (Dentist, error)
+	GetDentistByMatricula(matricula string) (Dentist, error)
+	DeleteDentistByID(id int) error
 }
 type DentistaService struct {
 	repository DentistRepository
@@ -17,36 +17,22 @@ func NewService(repository DentistRepository) *DentistaService {
 	return &DentistaService{repository: repository}
 }
 
-func (s *DentistaService) GetByID(id int) (Dentist, error) {
-	return s.repository.GetByID(id)
+func (s *DentistaService) GetDentistByID(id int) (Dentist, error) {
+	return s.repository.GetDentistByID(id)
 }
 
-func (s *DentistaService) Create(dentista Dentist) (Dentist, error) {
-	return s.repository.Create(dentista)
+func (s *DentistaService) CreateDentist(dentista Dentist) (Dentist, error) {
+	return s.repository.CreateDentist(dentista)
 }
 
-func (s *DentistaService) ModifyByID(id int, dentista Dentist) (Dentist, error) {
-	return s.repository.Modify(id, dentista)
+func (s *DentistaService) UpdateDentistByID(id int, dentista Dentist) (Dentist, error) {
+	return s.repository.UpdateDentistByID(id, dentista)
 }
 
-func (s *DentistaService) UpdateField(id int, fieldName string, fieldValue interface{}) (Dentist, error) {
-	dentista, err := s.repository.GetByID(id)
-	if err != nil {
-		return Dentist{}, err
-	}
-
-	switch fieldName {
-	case "Name":
-		dentista.Name = fieldValue.(string)
-	case "Lastname":
-		dentista.Lastname = fieldValue.(string)
-	case "matricula":
-		dentista.Matricula = fieldValue.(string)
-	}
-
-	return s.repository.Modify(id, dentista)
+func (s *DentistaService) GetDentistByMatricula(matricula string) (Dentist, error) {
+	return s.repository.GetDentistByMatricula(matricula)
 }
 
-func (s *DentistaService) Delete(id int) error {
-	return s.repository.Delete(id)
+func (s *DentistaService) DeleteDentistByID(id int) error {
+	return s.repository.DeleteDentistByID(id)
 }

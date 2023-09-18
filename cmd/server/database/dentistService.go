@@ -1,7 +1,6 @@
 package database
 
 import (
-	"database/sql"
 	"fmt"
 	"github.com/Jscm15/ParcialFinalBack3-Go-Grupo2/internal/dentists"
 	"log"
@@ -21,7 +20,7 @@ func (s *SqlStore) GetDentistByID(id int) (dentists.Dentist, error) {
 func (s *SqlStore) GetDentistByMatricula(matricula string) (dentists.Dentist, error) {
 	var dentistReturn dentists.Dentist
 
-	query := fmt.Sprintf("SELECT * FROM dentists WHERE matricula = '%s';")
+	query := fmt.Sprintf("SELECT * FROM dentists WHERE matricula = '%s';", matricula)
 	row := s.DB.QueryRow(query)
 	err := row.Scan(&dentistReturn.ID, &dentistReturn.Name, &dentistReturn.Lastname, &dentistReturn.Matricula)
 	if err != nil {
