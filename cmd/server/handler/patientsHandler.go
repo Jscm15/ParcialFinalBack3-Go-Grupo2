@@ -1,10 +1,10 @@
 package handler
 
 import (
-	"net/http"
-	"strconv"
 	"github.com/Jscm15/ParcialFinalBack3-Go-Grupo2/internal/patients"
 	"github.com/gin-gonic/gin"
+	"net/http"
+	"strconv"
 )
 
 type PatientGetter interface {
@@ -34,6 +34,13 @@ func NewPatientHandler(getter PatientGetter, creator PatientCreator, delete Pati
 	}
 }
 
+// @Summary Get Pacients
+// @Tags Pacientes
+// @Description get pacients by id
+// @Accept json
+// @Produce json
+// @Success 200 {object} web.Response
+// @Router /pacients [get]
 func (p *PatientHandler) GetPatientByID(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)

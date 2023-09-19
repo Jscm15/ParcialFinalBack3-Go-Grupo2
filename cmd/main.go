@@ -12,11 +12,14 @@ import (
 	"github.com/Jscm15/ParcialFinalBack3-Go-Grupo2/internal/dentists"
 	"github.com/Jscm15/ParcialFinalBack3-Go-Grupo2/internal/patients"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
 	"github.com/swaggo/gin-swagger"
-	"github.com/swaggo/gin-swagger/swaggerFiles"
 )
 
-
+// @title ParcialFinalBack-Go-Grupo2
+// @version 1.0
+// @description Esta es una API Swagger del grupo 2 en Go.
+// @BasePath /api/v1
 func main() {
 
 	env := os.Getenv("ENV")
@@ -31,7 +34,6 @@ func main() {
 	}
 
 	authMidd := middlewares.NewAuth(cfg.PublicConfig.PublicKey, cfg.PrivateConfig.SecretKey)
-
 
 	router := gin.New()
 
@@ -68,19 +70,17 @@ func main() {
 	patientsGroup.POST("", authMidd.AuthHeader, patientsHandler.AddPatient)
 	patientsGroup.PUT("/:id", authMidd.AuthHeader, patientsHandler.ModifyPatientByID)
 	patientsGroup.DELETE("/:id", authMidd.AuthHeader, patientsHandler.DeletePatientByID)
-	
+
 	dentistsService := dentists.NewService(myDatabase)
-	
+
 	dentistsHandler := handler.NewDentistsHandler(dentistsService, dentistsService, dentistsService)
-	
+
 	dentistGroup := router.Group("/dentists")
 	dentistGroup.POST("", authMidd.AuthHeader, dentistsHandler.CreateDentist)
 	dentistGroup.GET("/:id", authMidd.AuthHeader, dentistsHandler.GetDentistByID)
 	dentistGroup.PUT("/:id", authMidd.AuthHeader, dentistsHandler.UpdateDentistByID)
 	dentistGroup.GET("/matricula/:matricula", authMidd.AuthHeader, dentistsHandler.GetDentistByMatricula)
 	dentistGroup.DELETE("/:id", authMidd.AuthHeader, dentistsHandler.DeleteDentistByID)
-
-	
 
 	err = router.Run()
 
@@ -89,6 +89,6 @@ func main() {
 	}
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-    router.Run(":8080")
+	router.Run(":8080")
 
 }

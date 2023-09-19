@@ -2,10 +2,10 @@ package handler
 
 import (
 	"fmt"
-	"net/http"
-	"strconv"
 	"github.com/Jscm15/ParcialFinalBack3-Go-Grupo2/internal/dentists"
 	"github.com/gin-gonic/gin"
+	"net/http"
+	"strconv"
 )
 
 type Getter interface {
@@ -27,15 +27,21 @@ type DentistsHandler struct {
 	dentistsDeleter Deleter
 }
 
-
 func NewDentistsHandler(getter Getter, creator Creator, delete Deleter) *DentistsHandler {
 	return &DentistsHandler{
 		dentistsGetter:  getter,
 		dentistsCreator: creator,
-		dentistsDeleter:  delete,
+		dentistsDeleter: delete,
 	}
 }
 
+// @Summary Get Dentist
+// @Tags Dentista
+// @Description get dentist by id
+// @Accept json
+// @Produce json
+// @Success 200 {object} web.Response
+// @Router /dentist [get]
 func (dh *DentistsHandler) GetDentistByID(ctx *gin.Context) {
 	idParam := ctx.Param("id")
 	id, err := strconv.Atoi(idParam)
@@ -55,7 +61,7 @@ func (dh *DentistsHandler) GetDentistByID(ctx *gin.Context) {
 
 func (dh *DentistsHandler) GetDentistByMatricula(ctx *gin.Context) {
 	idParam := ctx.Param("matricula")
-	
+
 	dentista, err := dh.dentistsGetter.GetDentistByMatricula(idParam)
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": "invalid id"})
@@ -120,4 +126,3 @@ func (dh *DentistsHandler) DeleteDentistByID(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, gin.H{"data": fmt.Sprintf("Dentist %d deleted", id)})
 }
-
